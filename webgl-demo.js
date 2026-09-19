@@ -2,8 +2,11 @@ import { initBuffers } from "./init-buffers.js";
 import { drawScene } from "./draw-scene.js";
 import { cards, closeCanvas, mouse, openedCardId } from "./script.js";
 
-const rotationSpeed = 1.2;
-const rotatingDuration = 300;
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const smallScreen = window.matchMedia('(max-width: 700px)').matches;
+
+const rotationSpeed = prefersReducedMotion ? 0 : 1.2;
+const rotatingDuration = prefersReducedMotion ? 0 : 300;
 let face;
 let rotating = false;
 let rotatingStart;
@@ -134,7 +137,7 @@ export function initWebglPostcard() {
 
     // Here's where we call the routine that builds all the
     // objects we'll be drawing.
-    const buffers = initBuffers(gl, openedCard.width, openedCard.height, openedCard.width > openedCard.height ? 4 : 2.5);
+    const buffers = initBuffers(gl, openedCard.width, openedCard.height, (smallScreen ? 0.5 : 1) * (openedCard.width > openedCard.height ? 4 : 2.5));
 
     // Load texture
     const texture1 = loadTexture(gl, `./images/700/${openedCardId}a.webp`);

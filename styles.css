@@ -58,6 +58,13 @@ body {
         height: calc(var(--adj-ratio) * var(--height));
         width: calc(var(--adj-ratio) * var(--width));
         transition: transform 0.3s ease-in-out;
+
+        @media (prefers-reduced-motion: reduce) {
+            & {
+                transition: none;
+            }
+        }
+
         cursor: pointer;
         filter: blur(var(--blur-level));
         z-index: var(--z-index);
@@ -71,11 +78,24 @@ body {
             width: 100%;
             height: 100%;
             box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+            animation: fade-in-postcard 0.2s ease-in-out both;
+
+            @media (prefers-reduced-motion: reduce) {
+                & {
+                    animation: none;
+                }
+            }
         }
 
         &:hover {
             background-color: hsl(from var(--mdf-color-background-muted) h s calc(l - 2));
             transition: transform 0.3s ease-out;
+
+            @media (prefers-reduced-motion: reduce) {
+                & {
+                    transition: none;
+                }
+            }
         }
 
         &:focus-visible {
@@ -107,6 +127,12 @@ body {
         font-size: 0.8rem;
         max-width: calc(100vw - 2rem);
         animation: fade-in-postcard 0.3s 0.2s ease-in-out both;
+
+        @media (prefers-reduced-motion: reduce) {
+            & {
+                animation: none;
+            }
+        }
     }
 
     .buttons {
@@ -157,6 +183,12 @@ body {
         backdrop-filter: blur(10px);
         z-index: 0;
         animation: fade-in 0.3s ease-out;
+
+        @media (prefers-reduced-motion: reduce) {
+            & {
+                animation: none;
+            }
+        }
     }
 
     canvas {
@@ -165,6 +197,12 @@ body {
         position: relative;
         z-index: 1;
         animation: fade-in-postcard 0.2s ease-out;
+
+        @media (prefers-reduced-motion: reduce) {
+            & {
+                animation: none;
+            }
+        }
     }
 }
 

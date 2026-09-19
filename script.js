@@ -99,6 +99,7 @@ function buildCards() {
         button.style.transform = `translate(${initialTranslate[i][0]}px, ${initialTranslate[i][1]}px) rotate(${initialRotate[i]}deg)`
 
         const imgEl = document.createElement('img');
+        imgEl.setAttribute('loading', 'lazy');
         imgEl.setAttribute('src', `./images/500/${i + 1}a.webp`);
         imgEl.setAttribute('alt', cards.find(c => c.id === i + 1).alt);
 
