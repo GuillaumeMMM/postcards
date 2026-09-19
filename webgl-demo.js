@@ -142,8 +142,9 @@ export function initWebglPostcard() {
     const buffers = initBuffers(gl, openedCard.width, openedCard.height, size);
 
     // Load texture
-    const texture1 = loadTexture(gl, `./images/700/${openedCardId}a.webp`);
-    const texture2 = loadTexture(gl, `./images/700/${openedCardId}b.webp`);
+    /* const texture1 = loadTexture(gl, `./images/700/${openedCardId}a.webp`); */
+    const texture1 = loadTexture(gl, `./images/700/${openedCardId}a.webp`, `./images/500/${openedCardId}a.webp`);
+    const texture2 = loadTexture(gl, `./images/700/${openedCardId}b.webp`, `./images/500/${openedCardId}b.webp`);
     // Flip image pixels into the bottom-to-top order that WebGL expects.
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
@@ -214,7 +215,7 @@ function loadShader(gl, type, source) {
 // Initialize a texture and load an image.
 // When the image finished loading copy it into the texture.
 //
-function loadTexture(gl, url) {
+function loadTexture(gl, url, fallbackUrl) {
     const texture = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, texture);
 
@@ -230,7 +231,7 @@ function loadTexture(gl, url) {
     const border = 0;
     const srcFormat = gl.RGBA;
     const srcType = gl.UNSIGNED_BYTE;
-    const pixel = new Uint8Array([255, 255, 255, 255]); // opaque blue
+    const pixel = new Uint8Array([255, 255, 255, 255]);
     gl.texImage2D(
         gl.TEXTURE_2D,
         level,
@@ -243,32 +244,27 @@ function loadTexture(gl, url) {
         pixel,
     );
 
-    const image = new Image();
-    image.onload = () => {
+    function applyImage(image) {
         gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.texImage2D(
-            gl.TEXTURE_2D,
-            level,
-            internalFormat,
-            srcFormat,
-            srcType,
-            image,
-        );
+        gl.texImage2D(gl.TEXTURE_2D, level, internalFormat, srcFormat, srcType, image);
 
-        // WebGL1 has different requirements for power of 2 images
-        // vs. non power of 2 images so check if the image is a
-        // power of 2 in both dimensions.
         if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
-            // Yes, it's a power of 2. Generate mips.
             gl.generateMipmap(gl.TEXTURE_2D);
         } else {
-            // No, it's not a power of 2. Turn off mips and set
-            // wrapping to clamp to edge
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
         }
-    };
+    }
+
+    if (fallbackUrl) {
+        const fallbackImage = new Image();
+        fallbackImage.onload = () => applyImage(fallbackImage);
+        fallbackImage.src = fallbackUrl;
+    }
+
+    const image = new Image();
+    image.onload = () => applyImage(image);
     image.src = url;
 
     return texture;
