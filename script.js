@@ -99,8 +99,12 @@ function buildCards() {
         button.style.transform = `translate(${initialTranslate[i][0]}px, ${initialTranslate[i][1]}px) rotate(${initialRotate[i]}deg)`
 
         const imgEl = document.createElement('img');
-        imgEl.setAttribute('loading', 'lazy');
+        imgEl.style.display = 'none';
         imgEl.setAttribute('src', `./images/500/${i + 1}a.webp`);
+
+        imgEl.addEventListener('load', () => {
+            imgEl.style.display = 'block';
+        });
         imgEl.setAttribute('alt', cards.find(c => c.id === i + 1).alt);
 
         button.appendChild(imgEl);
