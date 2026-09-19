@@ -23,7 +23,7 @@ function initPositionBuffer(gl, postcardWidth, postcardHeight, postcardSize) {
 
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
-    const positions = createBoxPositions(postcardSize, postcardSize * postcardHeight / postcardWidth, 0.01);
+    const positions = createBoxPositions(postcardSize, postcardSize * postcardHeight / postcardWidth, 0.03);
 
     // Now pass the list of positions into WebGL to build the
     // shape. We do this by creating a Float32Array from the

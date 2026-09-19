@@ -3,7 +3,10 @@ import { drawScene } from "./draw-scene.js";
 import { cards, closeCanvas, mouse, openedCardId } from "./script.js";
 
 const rotationSpeed = 1.2;
+const rotatingDuration = 300;
 let face;
+let rotating = false;
+let rotatingStart;
 let rotateHandler;
 let quitHandler;
 let animationId;
@@ -13,9 +16,21 @@ export function initWebglPostcard() {
     face = initialFace;
     const rotateBtn = document.getElementById('canvas-rotate');
     const quitBtn = document.getElementById('canvas-quit');
+    const canvas = document.querySelector("#glcanvas");
+    const description = document.getElementById('description');
+
+    const openedCard = cards.find(c => c.id === openedCardId)
+    const desc = openedCard.description?.en || openedCard.description?.jp || '';
+    description.textContent = desc;
+    description.setAttribute('lang', openedCard.description?.jp ? 'jp' : 'en')
+
+    setTimeout(() => {
+        quitBtn.focus();
+    })
 
     if (rotateHandler) {
         rotateBtn.removeEventListener('click', rotateHandler);
+        canvas.removeEventListener('click', rotateHandler)
         rotateHandler = null;
     }
 
@@ -29,18 +44,23 @@ export function initWebglPostcard() {
         animationId = null;
     }
 
-    const canvas = document.querySelector("#glcanvas");
-
     rotateHandler = () => {
         face = face === 'front' ? 'back' : 'front';
+        rotating = true;
+        rotatingStart = performance.now();
+        setTimeout(() => {
+            rotating = false;
+        }, rotatingDuration)
     }
 
-    document.getElementById('canvas-rotate').addEventListener('click', rotateHandler)
+    rotateBtn.addEventListener('click', rotateHandler)
 
     quitHandler = () => {
         closeCanvas();
     }
-    document.getElementById('canvas-quit').addEventListener('click', quitHandler)
+    quitBtn.addEventListener('click', quitHandler)
+
+    canvas.addEventListener('click', rotateHandler)
 
     const gl = canvas.getContext("webgl", { antialias: true });
 
@@ -112,10 +132,9 @@ export function initWebglPostcard() {
         },
     };
 
-    const openedCard = cards.find(c => c.id === openedCardId)
     // Here's where we call the routine that builds all the
     // objects we'll be drawing.
-    const buffers = initBuffers(gl, openedCard.width, openedCard.height, openedCard.width > openedCard.height ? 4 : 3);
+    const buffers = initBuffers(gl, openedCard.width, openedCard.height, openedCard.width > openedCard.height ? 4 : 2.5);
 
     // Load texture
     const texture1 = loadTexture(gl, `./assets/images/700/${openedCardId}a.webp`);
@@ -125,7 +144,13 @@ export function initWebglPostcard() {
 
     // Draw the scene repeatedly
     function render() {
-        drawScene(gl, programInfo, buffers, texture1, texture2, (face === 'back' ? Math.PI : 0) + rotationSpeed * (mouse.x - (gl.canvas.clientWidth / 2)) / gl.canvas.clientWidth, rotationSpeed * (mouse.y - (gl.canvas.clientHeight / 2)) / gl.canvas.clientHeight);
+        let now = performance.now();
+        const animationAdvance = (now - rotatingStart) / rotatingDuration;
+        let rotatingFaceVal = (face === 'back' ? Math.PI : 0);
+        if (rotating) {
+            rotatingFaceVal = (face === 'back' ? Math.PI * animationAdvance : Math.PI * (1 - animationAdvance));
+        }
+        drawScene(gl, programInfo, buffers, texture1, texture2, rotatingFaceVal + rotationSpeed * (mouse.x - (gl.canvas.clientWidth / 2)) / gl.canvas.clientWidth, rotationSpeed * (mouse.y - (gl.canvas.clientHeight / 2)) / gl.canvas.clientHeight);
 
         animationId = requestAnimationFrame(render);
     }

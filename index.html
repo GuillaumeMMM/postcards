@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./styles.css" />
     <title>Postcards</title>
-    <meta name="description" content="Postcards" />
-    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+    <meta
+      name="description"
+      content="Postcards bought during my trip to Japan in 2026"
+    />
+    <link rel="icon" type="image/webp" href="/assets/favicon.webp" />
     <script src="./script.js" type="module" defer></script>
 
     <script
@@ -20,12 +23,62 @@
   <body>
     <main>
       <div id="canvas-layer">
-        <button id="canvas-rotate">rotate</button>
-        <button id="canvas-quit">quit</button>
-        <canvas id="glcanvas"></canvas>
+        <div class="canvas-bg"></div>
+        <div class="buttons">
+          <button id="canvas-quit" type="button">
+            <svg
+              id="icon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 32 32"
+              aria-hidden="true"
+            >
+              <polygon
+                fill="currentColor"
+                points="22 6 22 8 9.41 8 26 24.59 24.59 26 8 9.41 8 22 6 22 6 6 22 6"
+              />
+            </svg>
+            Back
+          </button>
+          <button id="canvas-rotate" type="button">
+            <svg
+              id="icon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 32 32"
+              aria-hidden="true"
+            >
+              <path
+                fill="currentColor"
+                d="M17.91,26.82l.35,2a12.9,12.9,0,0,0,4.24-1.54l-1-1.73A10.88,10.88,0,0,1,17.91,26.82Z"
+              />
+              <path
+                fill="currentColor"
+                d="M24.42,23.07,26,24.35a13,13,0,0,0,2.24-3.91l-1.87-.68A11,11,0,0,1,24.42,23.07Z"
+              />
+              <path
+                fill="currentColor"
+                d="M9.5,27.25a12.9,12.9,0,0,0,4.24,1.54l.35-2a10.88,10.88,0,0,1-3.59-1.3Z"
+              />
+              <path
+                fill="currentColor"
+                d="M5.67,19.76l-1.87.68A13,13,0,0,0,6,24.35l.32-.26,1.22-1h0a11,11,0,0,1-1.91-3.31Z"
+              />
+              <path
+                fill="currentColor"
+                d="M29,16a12.85,12.85,0,0,0-.8-4.44l-1.87.68A11.18,11.18,0,0,1,27,16Z"
+              />
+              <path
+                fill="currentColor"
+                d="M26,7.65a13,13,0,0,0-20,0V4H4v8h8V10H6.81A11,11,0,0,1,24.42,8.93Z"
+              />
+            </svg>
+            Rotation
+          </button>
+        </div>
+        <p class="summary" id="description"></p>
+        <canvas id="glcanvas" aria-hidden="true"></canvas>
       </div>
       <div class="container">
-        <div class="points"></div>
+        <ul class="points"></ul>
       </div>
     </main>
   </body>
