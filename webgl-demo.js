@@ -137,8 +137,8 @@ export function initWebglPostcard() {
     const buffers = initBuffers(gl, openedCard.width, openedCard.height, openedCard.width > openedCard.height ? 4 : 2.5);
 
     // Load texture
-    const texture1 = loadTexture(gl, `./assets/images/700/${openedCardId}a.webp`);
-    const texture2 = loadTexture(gl, `./assets/images/700/${openedCardId}b.webp`);
+    const texture1 = loadTexture(gl, `./images/700/${openedCardId}a.webp`);
+    const texture2 = loadTexture(gl, `./images/700/${openedCardId}b.webp`);
     // Flip image pixels into the bottom-to-top order that WebGL expects.
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
