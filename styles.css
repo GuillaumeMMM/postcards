@@ -28,6 +28,24 @@ body {
     color: var(--mdf-color-text-default)
 }
 
+h1 {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    background-color: rgb(from hsl(from var(--mdf-color-background-muted) h s calc(l - 2)) r g b / 0.9);
+    z-index: 1;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    animation: fade-in-postcard 0.3s 0.2s ease-in-out both;
+    padding: 0.5rem;
+
+    @media (prefers-reduced-motion: reduce) {
+        & {
+            animation: none;
+        }
+    }
+}
+
 
 .container {
     width: 100vw;
@@ -155,6 +173,11 @@ body {
             font-weight: 500;
             padding-left: 0.8rem;
             cursor: pointer;
+
+            &:focus-visible {
+                outline: 2px solid var(--mdf-color-outline-default);
+                outline-offset: 2px;
+            }
 
             svg {
                 width: 1rem;

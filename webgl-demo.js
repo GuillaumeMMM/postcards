@@ -138,7 +138,7 @@ export function initWebglPostcard() {
 
     // Here's where we call the routine that builds all the
     // objects we'll be drawing.
-    const size = (sScreen ? 0.5 : xsScreen ? 0.4 : 1) * (openedCard.width > openedCard.height ? 4 : 3);
+    const size = (sScreen ? 0.5 : xsScreen ? 0.4 : 1) * (openedCard.width > openedCard.height ? 4 : 2.7);
     const buffers = initBuffers(gl, openedCard.width, openedCard.height, size);
 
     // Load texture
