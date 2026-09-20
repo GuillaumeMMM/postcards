@@ -5,6 +5,7 @@ const postAngleIntensityParam = params.get("postAngleIntensity");
 const posiblePosInSpaceParam = params.get("posiblePosInSpace");
 const postcardSizeRatioParam = params.get("postcardSizeRatio");
 const cardsIdsParam = params.get("cardsIds");
+const hideTitleParam = params.get("hideTitle");
 
 const rawCards = [
     { id: 1, width: 500, height: 358, alt: 'Person standing inside a tall concrete corridor with an elongated oval skylight opening to sky and tree branches.', description: { en: 'Photo by Noboru Morikawa, Teshima Art Museum' } },
@@ -42,6 +43,7 @@ export const moveAwayIntensity = moveAwayIntensityParam ? Number(moveAwayIntensi
 export const postAngleIntensity = postAngleIntensityParam ? Number(postAngleIntensityParam) : 12;
 export const posiblePosInSpace = posiblePosInSpaceParam ? Number(posiblePosInSpaceParam) : 30;
 export const postcardSizeRatio = postcardSizeRatioParam ? Number(postcardSizeRatioParam) : 0.3;
+export const hideTitle = hideTitleParam ? Boolean(hideTitleParam) : false;
 
 function shuffle(array) {
     let currentIndex = array.length;

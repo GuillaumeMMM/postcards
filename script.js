@@ -1,4 +1,4 @@
-import { containerRestrictionRatio, moveAwayIntensity, postAngleIntensity, posiblePosInSpace, postcardSizeRatio, mouse, cards } from "./constant";
+import { containerRestrictionRatio, moveAwayIntensity, postAngleIntensity, posiblePosInSpace, postcardSizeRatio, mouse, cards, hideTitle } from "./constant";
 import { initWebglPostcard } from "./webgl-demo";
 
 document.addEventListener('pointermove', e => {
@@ -16,6 +16,10 @@ const pointsEl = document.querySelector('.points');
 const containerRect = document.querySelector('.container').getBoundingClientRect();
 const width = containerRect.width * containerRestrictionRatio;
 const height = containerRect.height * containerRestrictionRatio;
+
+if (hideTitle) {
+    document.querySelector('h1').remove()
+}
 
 let points = [];
 let initialTranslate = [];
