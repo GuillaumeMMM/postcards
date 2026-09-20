@@ -1,6 +1,7 @@
 import { initBuffers } from "./init-buffers.js";
 import { drawScene } from "./draw-scene.js";
-import { cards, closeCanvas, mouse, openedCardId } from "./script.js";
+import { closeCanvas, openedCardId } from "./script.js";
+import { cards, mouse } from "./constant.js";
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const sScreen = window.matchMedia('(max-width: 700px)').matches;
@@ -142,7 +143,6 @@ export function initWebglPostcard() {
     const buffers = initBuffers(gl, openedCard.width, openedCard.height, size);
 
     // Load texture
-    /* const texture1 = loadTexture(gl, `./images/700/${openedCardId}a.webp`); */
     const texture1 = loadTexture(gl, `./images/700/${openedCardId}a.webp`, `./images/500/${openedCardId}a.webp`);
     const texture2 = loadTexture(gl, `./images/700/${openedCardId}b.webp`, `./images/500/${openedCardId}b.webp`);
     // Flip image pixels into the bottom-to-top order that WebGL expects.
